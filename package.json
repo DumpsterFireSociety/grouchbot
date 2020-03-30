@@ -1,0 +1,30 @@
+{
+  "name": "grouchbot",
+  "version": "1.0.0",
+  "description": "The official Slack bot of Dumpsterfire Society",
+  "main": "src/startup.js",
+  "scripts": {
+    "test": "jest",
+    "test-and-coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/unplgtc/grouchbot.git"
+  },
+  "author": "Alex Guyot <alex@unapologetic.io> (https://unapologetic.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unplgtc/grouchbot/issues"
+  },
+  "homepage": "https://github.com/unplgtc/grouchbot#readme",
+  "dependencies": {
+    "@unplgtc/cbalerter": "^1.1.1",
+    "@unplgtc/cblogger": "^1.0.2",
+    "@unplgtc/http-request": "^3.0.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}

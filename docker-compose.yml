@@ -1,0 +1,9 @@
+version: '3'
+services:
+  grouchbot:
+    image: guyot/grouchbot
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 8080

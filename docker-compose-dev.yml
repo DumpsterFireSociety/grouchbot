@@ -1,0 +1,21 @@
+version: '3'
+services:
+  grouchbot:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - $GROUCHBOT_PORT
+    volumes:
+      - ./src:/usr/src/grouchbot/src
+    command:
+      $GROUCHBOT_ENV
+  ngrok:
+    image: wernight/ngrok
+    ports:
+      - "4040"
+    environment:
+      - NGROK_AUTH=$NGROK_AUTH_TOKEN
+      - NGROK_SUBDOMAIN=$NGROK_SUBDOMAIN
+      - NGROK_BINDTLS=true
+      - NGROK_PORT=grouchbot:$GROUCHBOT_PORT

@@ -1,3 +1,5 @@
-# grouchbot
+# Grouchbot
 
-The official Slack bot of Dumpsterfire Society
+### The official Slack bot of Dumpsterfire Society
+
+![](images/icon/Grouchbot.png)

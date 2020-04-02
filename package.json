@@ -21,6 +21,7 @@
     "@unplgtc/cbalerter": "^1.1.1",
     "@unplgtc/cblogger": "^1.0.2",
     "@unplgtc/http-request": "^3.0.0",
+    "async-redis": "^1.1.7",
     "body-parser": "^1.19.0",
     "express": "^4.17.1"
   },

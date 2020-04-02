@@ -2,11 +2,13 @@
 
 const bodyParser = require('body-parser'),
       CBLogger = require('@unplgtc/cblogger'),
-      express = require('express');
+      express = require('express'),
+      redisService = require('./services/redis/redisService');
 
 const grouchbot = {
 	startup: async function() {
 		try {
+			await this.initializePersistenceLayer();
 			await this.initializeApi();
 
 		} catch (err) {
@@ -25,7 +27,7 @@ const grouchbot = {
 				this.api.use(logCall);
 
 				// Slack command validation requires custom parsing, so keep this above the global urlencoded body parser
-				this.api.use('/cmd', require('./services/slack/api'));
+				this.api.use('/slack', require('./services/slack/api'));
 
 				// Parse urlencoded responses normally for remaining paths
 				this.api.use(bodyParser.urlencoded({ extended: true }));
@@ -47,6 +49,10 @@ const grouchbot = {
 				return reject('initializeApi');
 			}
 		});
+	},
+
+	initializePersistenceLayer() {
+		return redisService.initializeClient();
 	}
 }
 

@@ -2,7 +2,8 @@ const apiUtil = require('./apiUtil'),
       bodyParser = require('body-parser'),
       CBLogger = require('@unplgtc/cblogger'),
       router = require('express').Router(),
-      slashCommandService = require('../slashCommandService');
+      commandRouter = require('express').Router(),
+      slashCommandController = require('../slashCommandController');
 
 const apiPrefix = '/cmd';
 CBLogger.info(`Initializing slashCommand api endpoints at '${apiPrefix}'...`);
@@ -18,13 +19,29 @@ router.use(
 			}
 		}
 	}),
-	apiUtil.validateCommand,
+	apiUtil.logRequest,
+	apiUtil.validateRequest
+);
+
+router.post('/interactive', (req, res) => {
+	CBLogger.info('interactive_response');
+	slashCommandController.interactiveResponse(req, res);
+});
+
+router.use('/cmd', commandRouter);
+commandRouter.use(
+	'/',
 	apiUtil.logCommand
 );
 
-router.post('/ping', (req, res) => {
+commandRouter.post('/ping', (req, res) => {
 	CBLogger.info('ping_pong');
 	res.status(200).send('Pong :table_tennis_paddle_and_ball:');
+});
+
+commandRouter.post('/kris-poll', (req, res) => {
+	CBLogger.info('kris_poll');
+	slashCommandController.krisPoll(req, res);
 });
 
 module.exports = router;

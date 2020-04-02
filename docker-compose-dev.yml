@@ -10,10 +10,12 @@ services:
       - ./src:/usr/src/grouchbot/src
     command:
       $GROUCHBOT_ENV
+  redis:
+    image: redis:alpine
   ngrok:
     image: wernight/ngrok
     ports:
-      - "4040"
+      - 4040
     environment:
       - NGROK_AUTH=$NGROK_AUTH_TOKEN
       - NGROK_SUBDOMAIN=$NGROK_SUBDOMAIN

@@ -11,6 +11,7 @@ RUN npm install -g nodemon
 
 # Write source and configuration files
 COPY src/ ./src/
+COPY config/ ./config/
 COPY config.js ./
 
 ENTRYPOINT [ "nodemon", "./src/startup.js", "prod" ]

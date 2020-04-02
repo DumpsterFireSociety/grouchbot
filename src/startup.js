@@ -39,7 +39,9 @@ console.log('Initiating startup pipeline...');
 						color: level === 'WARN' ? '#f39c12' : level === 'INFO' ? '#3498db' : '#ea4857',
 						pretext: options.scope ? `<!${options.scope}>` : '',
 						title: data.message ? `${level}: ${key}` : '',
-						text: data.message ? data.message : `${level}: ${key}`
+						text: data.message
+						      ? `${data.user ? `Triggered by: <@${data.user}>\n` : ''}${data.message}`
+						      : `${level}: ${key}`
 					}
 				],
 				channel: process.env.alertChannel
@@ -50,7 +52,7 @@ console.log('Initiating startup pipeline...');
 	CBLogger.extend(CBAlerter);
 
 	// Notify alerts channel if starting up production or staging bots
-	if (['cb_prod', 'cb_staging'].includes(process.env.botName)) {
+	if (['gb_prod', 'gb_staging'].includes(process.env.botName)) {
 		CBLogger.info(`Starting up ${process.env.botName}...`, undefined, { alert: true, scope: 'here' });
 	}
 

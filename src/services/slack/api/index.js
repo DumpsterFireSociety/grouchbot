@@ -3,10 +3,10 @@ const apiUtil = require('./apiUtil'),
       CBLogger = require('@unplgtc/cblogger'),
       router = require('express').Router(),
       commandRouter = require('express').Router(),
-      slashCommandController = require('../slashCommandController');
+      slackController = require('../slackController');
 
 const apiPrefix = '/slack';
-CBLogger.info(`Initializing slashCommand api endpoints at '${apiPrefix}'...`);
+CBLogger.info(`Initializing slack api endpoints at '${apiPrefix}'...`);
 
 router.use(
 	'/',
@@ -25,7 +25,7 @@ router.use(
 
 router.post('/interactive', (req, res) => {
 	CBLogger.info('interactive_response');
-	slashCommandController.interactiveResponse(req, res);
+	slackController.interactiveResponse(req, res);
 });
 
 router.use('/cmd', commandRouter);
@@ -41,7 +41,7 @@ commandRouter.post('/ping', (req, res) => {
 
 commandRouter.post('/kris-poll', (req, res) => {
 	CBLogger.info('kris_poll');
-	slashCommandController.krisPoll(req, res);
+	slackController.krisPoll(req, res);
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ const CBLogger = require('@unplgtc/cblogger'),
       mayhemController = require('../mayhem/mayhemController'),
       slackApiService = require('./slackApiService');
 
-const slashCommandService = {
+const slackService = {
 	requestKrisPoll: async function (channelId, triggerId) {
 		const res = await slackApiService.openView(mayhemController.getKrisPollModal(channelId), triggerId)
 			.catch(err => {
@@ -21,4 +21,4 @@ const slashCommandService = {
 	}
 };
 
-module.exports = slashCommandService;
+module.exports = slackService;

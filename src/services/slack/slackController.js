@@ -1,9 +1,9 @@
 'use strict';
 
 const interactiveResponseHandlerService = require('./interactiveResponseHandlerService'),
-      slashCommandService = require('./slashCommandService');
+      slackService = require('./slackService');
 
-const slashCommandController = {
+const slackController = {
 	interactiveResponse(req, res) {
 		try {
 			var payload = JSON.parse(req.body.payload);
@@ -20,8 +20,8 @@ const slashCommandController = {
 	krisPoll(req, res) {
 		res.status(200).send();
 
-		slashCommandService.requestKrisPoll(req.body.channel_id, req.body.trigger_id);
+		slackService.requestKrisPoll(req.body.channel_id, req.body.trigger_id);
 	}
 }
 
-module.exports = slashCommandController;
+module.exports = slackController;

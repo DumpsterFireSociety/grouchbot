@@ -5,7 +5,7 @@ const apiUtil = require('./apiUtil'),
       commandRouter = require('express').Router(),
       slashCommandController = require('../slashCommandController');
 
-const apiPrefix = '/cmd';
+const apiPrefix = '/slack';
 CBLogger.info(`Initializing slashCommand api endpoints at '${apiPrefix}'...`);
 
 router.use(

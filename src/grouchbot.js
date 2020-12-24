@@ -12,12 +12,20 @@ const grouchbot = {
 			await this.initializeApi();
 
 		} catch (err) {
-			CBLogger.error(`${err} failure during grouchbot startup, exiting process...`);
+			CBLogger.error('Failure during grouchbot startup, exiting process...', err);
 			process.exit(1);
 		}
 	},
 
+	initializePersistenceLayer() {
+		CBLogger.info('initializing_persistence_layer');
+
+		return redisService.initializeClient();
+	},
+
 	initializeApi() {
+		CBLogger.info('initializing_api');
+
 		return new Promise((resolve, reject) => {
 			try {
 				const { logCall } = require('./api/apiUtil');
@@ -36,23 +44,19 @@ const grouchbot = {
 
 				this.api.listen(process.env.PORT, (err) => {
 					if (err) {
-						CBLogger.error('Failed to initialize Grouchbot API', undefined, undefined, err);
+						CBLogger.error('Failed to initialize Grouchbot API', err);
 						return reject('initializeApi');
 					}
 
-					CBLogger.info(`Grouchbot API initialized, listening on port ${process.env.PORT}...`);
+					CBLogger.info(`Grouchbot initialized, listening on port ${process.env.PORT}...`);
 					resolve();
 				});
 
 			} catch (err) {
-				CBLogger.error('Error initializing Grouchbot API', undefined, undefined, err);
+				CBLogger.error('Error initializing Grouchbot API', err);
 				return reject('initializeApi');
 			}
 		});
-	},
-
-	initializePersistenceLayer() {
-		return redisService.initializeClient();
 	}
 }
 

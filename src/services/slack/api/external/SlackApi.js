@@ -1,6 +1,6 @@
 'use strict';
 
-const { baseUrl, accessToken } = require('../../../../config/slackConfig');
+const { baseUrl, accessToken } = require('../../../../../config/slackConfig');
 
 const SlackApi = {
 	get headers() {

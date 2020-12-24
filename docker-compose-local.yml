@@ -4,12 +4,12 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-    ports:
-      - $GROUCHBOT_PORT
+      args:
+        - ENV=$ENV
+        - PORT=$PORT
     volumes:
+      - ./config:/usr/src/grouchbot/config
       - ./src:/usr/src/grouchbot/src
-    command:
-      $GROUCHBOT_ENV
   redis:
     image: redis:alpine
   ngrok:
@@ -20,4 +20,4 @@ services:
       - NGROK_AUTH=$NGROK_AUTH_TOKEN
       - NGROK_SUBDOMAIN=$NGROK_SUBDOMAIN
       - NGROK_BINDTLS=true
-      - NGROK_PORT=grouchbot:$GROUCHBOT_PORT
+      - NGROK_PORT=grouchbot:$PORT

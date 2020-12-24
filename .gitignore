@@ -1,6 +1,5 @@
 .env
 .DS_Store
 config
-config.js
 node_modules
 test/coverage

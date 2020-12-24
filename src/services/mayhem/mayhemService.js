@@ -2,7 +2,6 @@
 
 const CBLogger = require('@unplgtc/cblogger'),
       KrisPoll = require('./KrisPoll'),
-      redisService = require('../redis/redisService'),
       slackApiService = require('../slack/slackApiService');
 
 const mayhemService = {

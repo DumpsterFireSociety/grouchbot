@@ -4,6 +4,9 @@ services:
     image: guyot/grouchbot
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/Dockerfile-Prod
+      args:
+        - ENV=prod
+        - PORT=8080
     ports:
       - 8080

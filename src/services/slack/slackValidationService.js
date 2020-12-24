@@ -1,14 +1,15 @@
 'use strict';
 
 const CBLogger = require('@unplgtc/cblogger'),
-      crypto = require('crypto');
+      crypto = require('crypto'),
+      slackConfig = require('../../../config/slackConfig');
 
 const slackValidationService = {
 	validateSigningSecret(version, timestamp, rawBody, requestSignature) {
 		const sigBasestring = `${version}:${timestamp}:${rawBody}`;
 
 		const signature = `${version}=` +
-			crypto.createHmac('sha256', `${process.env.signingSecret}`)
+			crypto.createHmac('sha256', `${slackConfig.signingSecret}`)
 			      .update(sigBasestring, 'utf8')
 			      .digest('hex');
 

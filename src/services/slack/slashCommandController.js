@@ -7,6 +7,7 @@ const slashCommandController = {
 	interactiveResponse(req, res) {
 		try {
 			var payload = JSON.parse(req.body.payload);
+
 		} catch (err) {
 			res.status(500).send();
 		}

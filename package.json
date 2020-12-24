@@ -19,7 +19,7 @@
   "homepage": "https://github.com/unplgtc/grouchbot#readme",
   "dependencies": {
     "@unplgtc/cbalerter": "^1.1.1",
-    "@unplgtc/cblogger": "^1.0.2",
+    "@unplgtc/cblogger": "^1.0.4",
     "@unplgtc/http-request": "^3.0.0",
     "async-redis": "^1.1.7",
     "body-parser": "^1.19.0",

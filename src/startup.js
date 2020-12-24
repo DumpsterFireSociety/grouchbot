@@ -64,7 +64,7 @@ console.log('Initiating startup pipeline...');
 
 	// Notify alerts channel if starting up production or staging bots
 	if (['prod', 'staging'].includes(ENV)) {
-		CBLogger.info(`Starting up ${process.env.name}...`, undefined, { alert: true, scope: (ENV === 'prod' ? 'channel' : 'here') });
+		await CBLogger.info(`Starting up ${process.env.name}...`, undefined, { alert: true, scope: 'here' });
 	}
 
 	CBLogger.info('Launching Grouchbot...');

@@ -1,11 +1,7 @@
 'use strict';
 
 const HttpRequest = require('@unplgtc/http-request'),
-      api = require('./api/SlackApi');
-
-const slackApiConfig = {
-	baseUrl: 'https://slack.com/api'
-}
+      api = require('./api/external/SlackApi');
 
 const slackApiService = {
 	openView(view, triggerId) {

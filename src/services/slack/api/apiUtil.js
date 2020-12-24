@@ -32,6 +32,7 @@ const apiUtil = {
 		)) {
 			CBLogger.info('slack_request_validated');
 			next();
+
 		} else {
 			CBLogger.warn('slack_request_rejected', { reason: 'invalid_signature' });
 			res.status(401).send();

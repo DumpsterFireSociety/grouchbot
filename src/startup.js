@@ -1,20 +1,31 @@
 'use strict';
 
-const [ bin, sourcePath, ENV ] = process.argv;
+const ENV = process.env.ENV,
+      PORT = process.env.PORT;
 
 // If an invalid environment was passed in at launch, throw error and exit process
-if (!ENV) {
+if (!ENV || !PORT) {
 	console.error('No environment passed in, process exiting.');
 	process.exit(1);
 }
-if (!require('../config')[ENV]) {
+
+const config = require('../config/envConfig');
+
+if (!config) {
 	console.error(`Invalid environment '${ENV}' passed in, process exiting.`);
 	process.exit(1);
 }
 
-// Pull in configuration variables for the specified environment and assign them to process.env
-const config = { ...require('../config')[ENV], ...require('../config').all };
 Object.assign(process.env, config);
+
+process.on('unhandledRejection', (err, promise) => {
+	throw err;
+});
+
+process.on('uncaughtException', (err) => {
+	console.error('Uncaught exception thrown, exiting process...\n', err);
+	process.exit(1);
+});
 
 // Kick off the startup pipeline as an IIFE to enable async/await functionality
 console.log('Initiating startup pipeline...');
@@ -25,7 +36,7 @@ console.log('Initiating startup pipeline...');
 	      CBAlerter = require('@unplgtc/cbalerter'),
 	      CBLogger = require('@unplgtc/cblogger');
 
-	CBLogger.info(`Starting up ${process.env.botName} on port ${process.env.PORT}...`);
+	CBLogger.info(`Starting up ${process.env.name} on port ${PORT}...`);
 
 	// Set up alerts webhook so #grouchbot-alerts Slack channel can be notified of production problems
 	CBAlerter.addWebhook((level, key, data = {}, options, err) => {
@@ -52,8 +63,8 @@ console.log('Initiating startup pipeline...');
 	CBLogger.extend(CBAlerter);
 
 	// Notify alerts channel if starting up production or staging bots
-	if (['gb_prod', 'gb_staging'].includes(process.env.botName)) {
-		CBLogger.info(`Starting up ${process.env.botName}...`, undefined, { alert: true, scope: 'here' });
+	if (['prod', 'staging'].includes(ENV)) {
+		CBLogger.info(`Starting up ${process.env.name}...`, undefined, { alert: true, scope: (ENV === 'prod' ? 'channel' : 'here') });
 	}
 
 	CBLogger.info('Launching Grouchbot...');

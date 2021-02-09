@@ -23,6 +23,25 @@ router.use(
 	apiUtil.validateRequest
 );
 
+router.post('/', function(req, res, next) {
+	try {
+		if (req.body.challenge != undefined) {
+			CBLogger.info('challenge_event')
+            res.send(req.body.challenge)
+        }
+		else if (req.body.event.type == "app_mention") {
+			CBLogger.info('app_mention_event');
+			slackController.appMention(req, res, next)
+		} else {
+			CBLogger.info('message_event');
+			res.sendStatus(200);
+		}
+	} catch (err) {
+		CBLogger.error('event_processing_error', {error: err});
+		res.sendStatus(200);
+    }
+});
+
 router.post('/interactive', (req, res) => {
 	CBLogger.info('interactive_response');
 	slackController.interactiveResponse(req, res);

@@ -31,7 +31,14 @@ const grouchbot = {
 				const { logCall } = require('./api/apiUtil');
 
 				this.api = express();
-				this.api.use(bodyParser.json());
+				this.api.use(bodyParser.json({
+					verify(req, res, buf, encoding) {
+						console.log('JSON?')
+						if (buf && buf.length) {
+							req.rawBody = buf.toString(encoding || 'utf8');
+						}
+					}
+				}));
 				this.api.use(logCall);
 
 				// Slack command validation requires custom parsing, so keep this above the global urlencoded body parser

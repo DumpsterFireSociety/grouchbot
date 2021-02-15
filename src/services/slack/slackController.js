@@ -17,6 +17,12 @@ const slackController = {
 		interactiveResponseHandlerService.handle(payload);
 	},
 
+	krisGauge(req, res) {
+		res.status(200).send();
+
+		slackService.requestKrisGauge(req.body.channel_id, req.body.trigger_id);
+	},
+
 	krisPoll(req, res) {
 		res.status(200).send();
 

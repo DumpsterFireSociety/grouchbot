@@ -5,6 +5,21 @@ const CBLogger = require('@unplgtc/cblogger'),
       slackApiService = require('./slackApiService');
 
 const slackService = {
+	requestKrisGauge: async function (channelId, triggerId) {
+		const res = await slackApiService.openView(mayhemController.getKrisGaugeModal(channelId), triggerId)
+			.catch(err => {
+				CBLogger.error('unexpected_open_view_error', { view: 'kris_gauge' }, undefined, err);
+			});
+
+		if (!res || res.ok === false) {
+			CBLogger.error('open_view_error', { view: 'kris_gauge' }, undefined, res);
+			// TODO: Inform user
+			return;
+		}
+
+		CBLogger.info('view_delivered', { view: 'kris_gauge' });
+	},
+
 	requestKrisPoll: async function (channelId, triggerId) {
 		const res = await slackApiService.openView(mayhemController.getKrisPollModal(channelId), triggerId)
 			.catch(err => {

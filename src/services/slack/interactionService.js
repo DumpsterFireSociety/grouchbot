@@ -28,6 +28,10 @@ const interactionService = {
 		return domain.split('_').map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join('');
 	},
 
+	handleKrisGaugeResponse(id, payload) {
+		mayhemController.updateKrisGauge(id, payload);
+	},
+
 	handleKrisPollResponse(id, payload) {
 		mayhemController.updateKrisPoll(id, payload);
 	}

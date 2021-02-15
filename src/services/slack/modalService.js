@@ -27,6 +27,10 @@ const modalService = {
 		return callbackId.split('_').map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join('');
 	},
 
+	handleKrisGaugeResponse(payload) {
+		mayhemController.createKrisGauge(payload);
+	},
+
 	handleKrisPollResponse(payload) {
 		mayhemController.createKrisPoll(payload);
 	}

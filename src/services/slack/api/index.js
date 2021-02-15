@@ -58,6 +58,11 @@ commandRouter.post('/ping', (req, res) => {
 	res.status(200).send('Pong :table_tennis_paddle_and_ball:');
 });
 
+commandRouter.post('/kris-gauge', (req, res) => {
+	CBLogger.info('kris_gauge');
+	slackController.krisGauge(req, res);
+});
+
 commandRouter.post('/kris-poll', (req, res) => {
 	CBLogger.info('kris_poll');
 	slackController.krisPoll(req, res);

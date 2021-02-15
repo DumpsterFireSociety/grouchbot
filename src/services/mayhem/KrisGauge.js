@@ -12,6 +12,7 @@ const KrisGauge = {
 		this.spammable = data.spammable;
 		this.dateCreated = data.dateCreated || new Date();
 		this.results = data.results || this.initResults();
+		this.closed = data.closed || false;
 
 		return this;
 	},
@@ -152,19 +153,30 @@ const KrisGauge = {
 		return [{
 			title: `<@${this.creator}> has requested your judgement`,
 			fallback: `Your judgement is requested on ${this.sentiment}`,
-			text: 'Behold the judgement of Kris',
-			color: '#3AA3E3',
-			fields: fields
+			text: '_Behold the judgement of Kris_',
+			color: '#3AA3E3'
 		},
 		{
 			text: '',
-			callback_id: `krisGauge.${this.id}`,
-			color: '#3AA3E3',
-			actions: actions
+			color: '#B53737',
+			fields: fields
 		},
+		...(!this.closed ? [
+			{
+				text: '',
+				callback_id: `krisGauge.${this.id}`,
+				color: '#3AA3E3',
+				actions: actions
+			}
+		] : [
+			{
+				text: `:grouch: *The judgement of Kris has been rendered:* ${this.results.positive > this.results.negative ? ':goodstat:' : ':badstat:'}`,
+				color: '#B53737'
+			}
+		]),
 		...(!this.spammable ? [
 			{
-				text: `:grouch: No spamming. (${this.results?.negative} — ${this.results?.positive})`,
+				text: `:grouch: *No spamming. (${this.results?.negative} — ${this.results?.positive})*`,
 				color: '#3AA3E3'
 			}
 		] : [])];
@@ -191,7 +203,8 @@ const KrisGaugeDao = {
 			sentiment: this.sentiment,
 			spammable: this.spammable,
 			dateCreated: this.dateCreated,
-			results: this.results
+			results: this.results,
+			closed: this.closed
 		};
 	},
 

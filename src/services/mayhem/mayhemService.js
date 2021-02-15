@@ -53,6 +53,16 @@ const mayhemService = {
 			return false;
 		}
 
+		if (krisGauge.closed) {
+			CBLogger.info(`Rejecting request from user ${user} because judgement has been rendered`);
+			return krisGauge;
+		}
+
+		if (!krisGauge.closed && krisGauge.results.positive + krisGauge.results.negative > 185) {
+			krisGauge.closed = true;
+			return krisGauge.save();
+		}
+
 		krisGauge.results.voters.push(user);
 		krisGauge.results[option]++;
 

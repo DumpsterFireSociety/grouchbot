@@ -2,10 +2,11 @@
 
 const CBLogger = require('@unplgtc/cblogger'),
       mayhemController = require('../mayhem/mayhemController'),
-      slackApiService = require('./slackApiService');
+      slackApiService = require('./slackApiService'),
+      slackConfig = require('../../../config/slackConfig');
 
 const slackService = {
-	requestKrisGauge: async function (channelId, triggerId) {
+	requestKrisGauge: async function(channelId, triggerId) {
 		const res = await slackApiService.openView(mayhemController.getKrisGaugeModal(channelId), triggerId)
 			.catch(err => {
 				CBLogger.error('unexpected_open_view_error', { view: 'kris_gauge' }, undefined, err);
@@ -20,7 +21,7 @@ const slackService = {
 		CBLogger.info('view_delivered', { view: 'kris_gauge' });
 	},
 
-	requestKrisPoll: async function (channelId, triggerId) {
+	requestKrisPoll: async function(channelId, triggerId) {
 		const res = await slackApiService.openView(mayhemController.getKrisPollModal(channelId), triggerId)
 			.catch(err => {
 				CBLogger.error('unexpected_open_view_error', { view: 'kris_poll' }, undefined, err);
@@ -35,9 +36,23 @@ const slackService = {
 		CBLogger.info('view_delivered', { view: 'kris_poll' });
 	},
 
-	respondToAppMention: async function (channelId) {
+	notifyWorkingFrom: async function(user, details) {
+		CBLogger.info('notify_working_from', { user, details });
 
-		let responses = [
+		const [ location, duration ] = details.split(','),
+		      alertLevel = '<!here>',
+		      message = `<@${user}> is working from *${location.trim()}*${duration ? ` ${duration.trim()}` : ''}`;
+
+		return slackApiService.postMessage({
+			text: `${alertLevel} ${message}`,
+			channel: slackConfig.workingFromChannel
+		})
+	},
+
+	respondToAppMention: async function(channelId) {
+		CBLogger.info('responding_to_mention_response', { response: randomResponse, channel: channelId });
+
+		const responses = [
 			"What?",
 			"Can't you see I'm busy?",
 			"Ugh!",
@@ -55,15 +70,13 @@ const slackService = {
 			":take_this_to_not_here:",
 			":kris-left-hand-knife::kris-arm::kris-body::kris-arm-2::kris-right-hand-knife:",
 			":dumpsterfireparty: :dumpsterfireparty: Party Time! :dumpsterfireparty: :dumpsterfireparty:"
-		]
+		];
+		const randomResponse = responses[Math.floor(Math.random() * responses.length)];
 
-		var randomResponse = responses[Math.floor(Math.random()*responses.length)];
-
-		CBLogger.info('responding_to_mention_response', { response: randomResponse, channel: channelId });
-		slackApiService.postMessage({
+		return slackApiService.postMessage({
 			text: randomResponse,
 			channel: channelId
-		})
+		});
 	}
 };
 

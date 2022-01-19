@@ -50,8 +50,6 @@ const slackService = {
 	},
 
 	respondToAppMention: async function(channelId) {
-		CBLogger.info('responding_to_mention_response', { response: randomResponse, channel: channelId });
-
 		const responses = [
 			"What?",
 			"Can't you see I'm busy?",
@@ -72,6 +70,8 @@ const slackService = {
 			":dumpsterfireparty: :dumpsterfireparty: Party Time! :dumpsterfireparty: :dumpsterfireparty:"
 		];
 		const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+
+		CBLogger.info('responding_to_mention_response', { response: randomResponse, channel: channelId });
 
 		return slackApiService.postMessage({
 			text: randomResponse,

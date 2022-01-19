@@ -10,7 +10,7 @@ CBLogger.info(`Initializing slack api endpoints at '${apiPrefix}'...`);
 
 router.use(
 	'/',
-	bodyParser.urlencoded({ 
+	bodyParser.urlencoded({
 		extended: true,
 		// Add the raw body to the parsed response so it can be used to verify Slack signing secrets
 		verify(req, res, buf, encoding) {
@@ -66,6 +66,11 @@ commandRouter.post('/kris-gauge', (req, res) => {
 commandRouter.post('/kris-poll', (req, res) => {
 	CBLogger.info('kris_poll');
 	slackController.krisPoll(req, res);
+});
+
+commandRouter.post('/wf', (req, res) => {
+	CBLogger.info('working_from');
+	slackController.workingFrom(req, res);
 });
 
 module.exports = router;

@@ -29,6 +29,12 @@ const slackController = {
 		slackService.requestKrisPoll(req.body.channel_id, req.body.trigger_id);
 	},
 
+	workingFrom(req, res) {
+		res.status(200).send();
+
+		slackService.notifyWorkingFrom(req.body.user_id, req.body.text);
+	},
+
 	appMention(req, res) {
 		res.status(200).send();
 
